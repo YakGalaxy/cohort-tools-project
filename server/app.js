@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cohortData = require("./cohorts.json");
 const studentData = require("./students.json")
+const cors = require("cors")
 
 const PORT = 5005;
 
@@ -17,6 +18,7 @@ const app = express();
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
 // ...
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("public"));
@@ -37,6 +39,7 @@ app.get("/api/cohorts", (req, res) => {
 app.get("/api/students", (req, res) =>{
   res.json(studentData)
 })
+
 // START SERVER
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
