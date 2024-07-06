@@ -24,7 +24,7 @@ const studentSchema = new Schema ({
         default: "", 
     },
   languages: {
-    type: Array,
+    type: [String],
     enum: ["English", "Spanish", "French", "German", "Portuguese", "Dutch", "Other"]
   },
   program: {
@@ -33,14 +33,18 @@ const studentSchema = new Schema ({
   },
   background: {
     type: String,
-    default: Empty
+    default: "",
   },
   image: {
         type: String,
         default: "https://i.imgur.com/r8bo8u7.png", 
     },
-  cohort: ObjectId,
-  projects: Array
+  cohort: {
+    type: Schema.Types.ObjectId, ref: "Cohort",
+  },
+  projects: {
+    type: Array,
+  }
 })
 
 const Student = mongoose.model("Student", studentSchema)

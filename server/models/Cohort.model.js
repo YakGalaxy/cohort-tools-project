@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 
-const cohortsSchema = new Schema({
+const cohortSchema = new Schema({
     cohortSlug: {
         type: String,
         required: true, 
@@ -15,7 +15,7 @@ const cohortsSchema = new Schema({
     },
     program: {
         type: String,
-        enum: ["Data Analaytics", "Web Dev", "UX/UI", "Cybersecurity" ], 
+        enum: ["Data Analytics", "Web Dev", "UX/UI", "Cybersecurity" ], 
     },
     format: {
         type: String,

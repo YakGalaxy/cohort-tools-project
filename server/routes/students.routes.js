@@ -1,0 +1,85 @@
+const express = require("express");
+const router = express.Router();
+const Student = require("../models/Student.model");
+
+// Students Routes
+
+router.get("/api/students", (req, res) => {
+  res.json(studentData);
+});
+
+router.get("/api/students/cohort/:cohortId", (req, res) => {
+  const studentId = req.params.cohortId;
+  Student.findById(cohortId)
+    .then((cohortStudents) =>{
+      res.json(cohortStudents);
+    })
+    .catch((err) =>{
+      console.error("Failed to get cohort students", err)
+      res.status(500).json({ err: err })
+    })
+});
+
+router.get("/api/students/:studentId", (req, res) => {
+  const studentId = req.params.studentId;
+  Student.findById(studentId)
+    .then((oneStudent) =>{
+      res.json(oneStudent)
+    })
+    .catch((err) =>{
+      console.error("Failed to get one student", err)
+      res.status(500).json({ err: err })
+    })
+});
+
+router.post("/api/students", (req, res) => {
+  Student.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    phone: req.body.phone,
+    linkedinUrl: req.body.linkedinUrl,
+    languages: req.body.languages,
+    program: req.body.program,
+    background: req.body.background,
+    image: req.body.image,
+    cohort: req.body.cohort,
+    projects: req.body.projects
+  })
+  .then((createdStudent) =>{
+    console.log("Student created ->", createdStudent)
+    res.json(createdStudent)
+  })
+  .catch((err) => {
+    console.error("Failed to create a student", err)
+    res.status(500).send({ err:err})
+  })
+});
+
+router.put("/api/students/:studentId", (req, res) => {
+  const studentId = req.params.studentId;
+  Student.findByIdAndUpdate(studentId, req, {})
+    .then((updatedStudent) => {
+      console.log("Updated student ->", updatedStudent);
+      res.status(204).json(updatedStudent);
+    })
+    .catch((err) =>{
+      res.status(500).send({ err:err})
+    })
+});
+
+router.delete("/api/students/:studentId", (req, res) => {
+  const studentId = req.params.studentId;
+  
+  Student.findByIdAndDelete(studentId)
+  .then((result) => {
+    console.log("result", result)
+    res.status(204).send();
+  })
+  .catch((err) => {
+    console.error("Failed to delete one student", err)
+    res.status(500).json({ err:err})
+  })
+});
+
+module.exports = router;
