@@ -19,7 +19,7 @@ router.get("/api/students", (req, res) => {
 
 router.get("/api/students/cohort/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
-    Student.findById(cohortId)
+    Student.find({ cohort:cohortId })
     .then((cohortStudents) => {
       res.json(cohortStudents);
     })
