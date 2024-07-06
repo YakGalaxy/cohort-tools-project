@@ -55,10 +55,10 @@ router.get("/api/cohorts/:cohortId", (req, res) => {
 
 router.put("/api/cohorts/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
-  Cohort.findByIdAndUpdate(cohortId, req.body, {})
+  Cohort.findByIdAndUpdate(cohortId, req.body, { new: true })
     .then((updatedCohort) => {
       console.log("Updated cohort ->", updatedCohort);
-      res.status(204).json(updatedCohort);
+        res.status(204).json(updatedCohort);
     })
     .catch((error) => {
       console.error("Error while updating the cohort ->", error);
@@ -70,7 +70,7 @@ router.delete("/api/cohorts/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
   Cohort.findByIdAndDelete(cohortId, req.body, {})
     .then((result) => {
-      console.log("Cohort deleted!");
+      console.log("Cohort deleted!", result);
       res.status(204).send();
     })
     .catch((error) => {
