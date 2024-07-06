@@ -1,8 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const Cohort = require("../models/Cohort.model");
+// const cohortData = require("../cohorts.json");
 
 // Cohort Routes
+
+router.get("/api/cohorts", (req, res) => {
+  Cohort.find({})
+    .then((cohorts) => {
+      console.log("Retrieved cohorts ->", cohorts);
+      res.status(200).json(cohorts);
+    })
+    .catch((error) => {
+      console.log("Error while retrieving cohorts ->", error);
+      res.status(500).json({ error: "Failed to retrieve cohorts" });
+    });
+});
+
+router.get("/api/cohorts/:cohortId", (req, res) => {
+  const cohortId = req.params.cohortId;
+  Cohort.findById(cohortId)
+    .then((cohort) => {
+      console.log("Retrieved cohort ->", cohort);
+      res.status(200).json(cohort);
+    })
+    .catch((error) => {
+      console.error("Error retrieving cohort ->", error);
+      res.status(500).json({ error: "Failed to retrieve cohort" });
+    });
+});
 
 router.post("/api/cohorts", (req, res) => {
   Cohort.create({
@@ -28,37 +54,12 @@ router.post("/api/cohorts", (req, res) => {
     });
 });
 
-router.get("/api/cohorts", (req, res) => {
-  Cohort.find({})
-    .then((cohorts) => {
-      console.log("Retrieved cohorts ->", cohorts);
-      res.status(200).json(cohorts);
-    })
-    .catch((error) => {
-      console.log("Error while retrieving cohorts ->", error);
-      res.status(500).json({ error: "Failed to retrieve cohorts" });
-    });
-});
-
-router.get("/api/cohorts/:cohortId", (req, res) => {
-  const cohortId = req.params.cohortId;
-  Cohort.findById(cohortId)
-    .then((cohort) => {
-      console.log("Retrieved cohort ->", cohort);
-      res.status(200).json(cohort);
-    })
-    .catch((error) => {
-      console.error("Errror retrieving cohort ->", error);
-      res.status(500).json({ error: "Failed to retrieve cohort" });
-    });
-});
-
 router.put("/api/cohorts/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
   Cohort.findByIdAndUpdate(cohortId, req.body, { new: true })
     .then((updatedCohort) => {
       console.log("Updated cohort ->", updatedCohort);
-        res.status(204).json(updatedCohort);
+      res.status(204).json(updatedCohort);
     })
     .catch((error) => {
       console.error("Error while updating the cohort ->", error);
