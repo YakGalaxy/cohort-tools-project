@@ -43,6 +43,9 @@ app.use(studentsRoutes);
 const cohortsRoutes = require("./routes/cohorts.routes");
 app.use(cohortsRoutes);
 
+const authRouter = require("./routes/auth.routes");
+app.use("/auth", authRouter);
+
 // START SERVER
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
