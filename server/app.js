@@ -46,6 +46,9 @@ app.use(cohortsRoutes);
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
 
+const userRoute = require("./routes/user.route");
+app.use("/api/user/:id", userRoute)
+
 // START SERVER
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
