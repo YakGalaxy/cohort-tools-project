@@ -7,7 +7,7 @@ const Student = require("../models/Student.model");
 
 router.get("/api/students", (req, res) => {
   Student.find({})
-    .populate("cohorts")
+    .populate("cohort")
     .then((students) => {
       console.log("Retrieved students ->", students);
       res.status(200).json(students);
@@ -21,7 +21,7 @@ router.get("/api/students", (req, res) => {
 router.get("/api/students/cohort/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
     Student.find({ cohort:cohortId })
-    .populate("cohorts")
+    .populate("cohort")
     .then((cohortStudents) => {
       res.json(cohortStudents);
     })
@@ -34,7 +34,7 @@ router.get("/api/students/cohort/:cohortId", (req, res) => {
 router.get("/api/students/:studentId", (req, res) => {
   const studentId = req.params.studentId;
   Student.findById(studentId)
-    .populate("cohorts")
+    .populate("cohort")
     .then((oneStudent) => {
       res.json(oneStudent);
     })
@@ -95,3 +95,4 @@ router.delete("/api/students/:studentId", (req, res) => {
 });
 
 module.exports = router;
+

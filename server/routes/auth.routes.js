@@ -25,8 +25,7 @@ router.post("/signup", (req, res, next) => {
   const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!passwordRegex.test(password)) {
     res
-      .status(400)
-      .json({
+      .status(400).json({
         message:
           "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
       });
@@ -50,7 +49,7 @@ router.post("/signup", (req, res, next) => {
 
       const user = { email, name, _id };
 
-      res.status(201).json({ user: user });
+      res.status(201).json({ user });
     })
     .catch((err) => {
       console.log(err);
@@ -83,7 +82,7 @@ router.post("/login", (req, res, next) => {
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
-          expiresIn: "6h",
+          expiresIn: "90d",
         });
 
         res.status(200).json({ authToken: authToken });
@@ -91,7 +90,10 @@ router.post("/login", (req, res, next) => {
         res.status(401).json({ message: "Unable to authenticate the user" });
       }
     })
-    .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
+    .catch((err) => {
+      res.status(500).json({ message: "Internal Server Error" })
+        console.log(err)
+      });
 });
 
 // GET  /auth/verify
